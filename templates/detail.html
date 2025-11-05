@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="uz">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ blog.title }} — Blog</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #000;
+            color: #e7e9ea;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            min-height: 100vh;
+        }
+
+        .container-fluid {
+            max-width: 1265px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .top-header {
+            background-color: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid #2f3336;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            color: #e7e9ea;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: background-color 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+        }
+
+        .back-btn:hover {
+            background-color: rgba(231, 233, 234, 0.1);
+        }
+
+        .header-title h2 {
+            font-size: 20px;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .post-count {
+            font-size: 13px;
+            color: #71767b;
+            font-weight: 400;
+        }
+
+        /* Main Layout */
+        .main-layout {
+            display: flex;
+            max-width: 1265px;
+            margin: 0 auto;
+        }
+
+        .left-sidebar {
+            width: 275px;
+            padding: 20px;
+            border-right: 1px solid #2f3336;
+            position: sticky;
+            top: 60px;
+            height: calc(100vh - 60px);
+            overflow-y: auto;
+        }
+
+        .main-content {
+            flex: 1;
+            max-width: 600px;
+            border-right: 1px solid #2f3336;
+        }
+
+        .right-sidebar {
+            width: 350px;
+            padding: 20px;
+            position: sticky;
+            top: 60px;
+            height: calc(100vh - 60px);
+            overflow-y: auto;
+        }
+
+        /* Author Card */
+        .author-card {
+            background-color: #16181c;
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+
+        .author-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .author-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1d9bf0, #7856ff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .author-info h4 {
+            font-size: 15px;
+            font-weight: 700;
+            margin: 0;
+            color: #e7e9ea;
+        }
+
+        .author-username {
+            font-size: 14px;
+            color: #71767b;
+        }
+
+        .author-bio {
+            font-size: 14px;
+            color: #e7e9ea;
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        .author-stats {
+            display: flex;
+            gap: 20px;
+            font-size: 14px;
+        }
+
+        .author-stats span {
+            color: #71767b;
+        }
+
+        .author-stats strong {
+            color: #e7e9ea;
+            font-weight: 700;
+        }
+
+        /* Post Content */
+        .post-container {
+            border-bottom: 1px solid #2f3336;
+        }
+
+        .post-header {
+            padding: 16px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .post-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1d9bf0, #7856ff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 600;
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+        .post-main {
+            flex: 1;
+        }
+
+        .post-user {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-bottom: 8px;
+        }
+
+        .post-name {
+            font-size: 15px;
+            font-weight: 700;
+            color: #e7e9ea;
+        }
+
+        .post-username {
+            font-size: 15px;
+            color: #71767b;
+        }
+
+        .post-time {
+            font-size: 15px;
+            color: #71767b;
+        }
+
+        .post-title {
+            font-size: 23px;
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 12px;
+            color: #e7e9ea;
+        }
+
+        .post-text {
+            font-size: 17px;
+            line-height: 1.5;
+            color: #e7e9ea;
+            margin-bottom: 16px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .post-image {
+            width: 100%;
+            border-radius: 16px;
+            border: 1px solid #2f3336;
+            margin-bottom: 12px;
+            max-height: 600px;
+            object-fit: cover;
+        }
+
+        .post-stats {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 0;
+            border-top: 1px solid #2f3336;
+            border-bottom: 1px solid #2f3336;
+            font-size: 14px;
+            color: #71767b;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .stat-item strong {
+            color: #e7e9ea;
+            font-weight: 700;
+        }
+
+        /* Action Buttons */
+        .post-actions {
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0;
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            color: #71767b;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .action-btn:hover {
+            background-color: rgba(29, 155, 240, 0.1);
+            color: #1d9bf0;
+        }
+
+        .action-btn.liked {
+            color: #f91880;
+        }
+
+        .action-btn.liked:hover {
+            background-color: rgba(249, 24, 128, 0.1);
+        }
+
+        .action-btn.saved {
+            color: #00ba7c;
+        }
+
+        .action-btn.saved:hover {
+            background-color: rgba(0, 186, 124, 0.1);
+        }
+
+        .action-btn i {
+            font-size: 18px;
+        }
+
+        /* Status Badge */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .status-badge.published {
+            background-color: rgba(0, 186, 124, 0.1);
+            color: #00ba7c;
+            border: 1px solid rgba(0, 186, 124, 0.3);
+        }
+
+        .status-badge.draft {
+            background-color: rgba(249, 24, 128, 0.1);
+            color: #f91880;
+            border: 1px solid rgba(249, 24, 128, 0.3);
+        }
+
+        /* Trending Widget */
+        .widget {
+            background-color: #16181c;
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .widget-header {
+            padding: 16px;
+            font-size: 20px;
+            font-weight: 700;
+            border-bottom: 1px solid #2f3336;
+        }
+
+        .trend-item {
+            padding: 12px 16px;
+            transition: background-color 0.2s;
+            cursor: pointer;
+            border-bottom: 1px solid #2f3336;
+        }
+
+        .trend-item:last-child {
+            border-bottom: none;
+        }
+
+        .trend-item:hover {
+            background-color: rgba(231, 233, 234, 0.03);
+        }
+
+        .trend-category {
+            font-size: 13px;
+            color: #71767b;
+        }
+
+        .trend-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #e7e9ea;
+            margin: 2px 0;
+        }
+
+        .trend-posts {
+            font-size: 13px;
+            color: #71767b;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #000;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #2f3336;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3f4346;
+        }
+
+        @media (max-width: 1024px) {
+            .right-sidebar {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .left-sidebar {
+                display: none;
+            }
+
+            .main-content {
+                border-left: none;
+                border-right: none;
+            }
+
+            .post-title {
+                font-size: 20px;
+            }
+
+            .post-text {
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <div class="top-header">
+        <div class="header-content">
+            <button class="back-btn" onclick="window.location.href='/'">
+                <i class="bi bi-arrow-left"></i>
+            </button>
+            <div class="header-title">
+                <h2>Post</h2>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Layout -->
+    <div class="main-layout">
+        <!-- Left Sidebar -->
+        <div class="left-sidebar">
+            <div class="author-card">
+                <div class="author-header">
+                    <div class="author-avatar">{{ blog.author|slice:":1"|upper }}</div>
+                    <div class="author-info">
+                        <a href="{%url 'profile_view' %}"><h4>{{ blog.author }}</h4></a>
+                        <div class="author-username">@{{ blog.author|lower }}</div>
+                    </div>
+                </div>
+                <div class="author-bio">
+                    Professional blogger sharing insights and stories 📝
+                </div>
+                <div class="author-stats">
+                    <div><strong>1.2K</strong> <span>Followers</span></div>
+                    <div><strong>340</strong> <span>Following</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="post-container">
+                <div class="post-header">
+                    <div class="post-avatar">{{ blog.author|slice:":1"|upper }}</div>
+                    <div class="post-main">
+                        <div class="post-user">
+                            <span class="post-name">{{ blog.author }}</span>
+                            <span class="post-username">@{{ blog.author|lower }}</span>
+                            <span class="post-time">· {{ blog.created_at|date:"j M" }}</span>
+                        </div>
+
+                        {% if blog.is_published %}
+                        <span class="status-badge published">
+                            <i class="bi bi-check-circle-fill"></i>
+                            E'lon qilingan
+                        </span>
+                        {% else %}
+                        <span class="status-badge draft">
+                            <i class="bi bi-pencil-fill"></i>
+                            Qoralama
+                        </span>
+                        {% endif %}
+
+                        <h1 class="post-title">{{ blog.title }}</h1>
+                        
+                        <div class="post-text">{{ blog.desc }}</div>
+
+                        {% if blog.image %}
+                        <img src="{{ blog.image.url }}" alt="Post image" class="post-image">
+                        {% endif %}
+
+                        <div class="post-stats">
+                            <div class="stat-item">
+                                <strong>1.2K</strong> <span>Retweets</span>
+                            </div>
+                            <div class="stat-item">
+                                <strong>856</strong> <span>Quotes</span>
+                            </div>
+                            <div class="stat-item">
+                                <strong>4.5K</strong> <span>Likes</span>
+                            </div>
+                            <div class="stat-item">
+                                <strong>89</strong> <span>Bookmarks</span>
+                            </div>
+                        </div>
+
+                        <div class="post-actions">
+                            <form method="post" action="#" style="margin: 0;">
+                                {% csrf_token %}
+                                <button type="submit" class="action-btn">
+                                    <i class="bi bi-chat"></i>
+                                    <span>122</span>
+                                </button>
+                            </form>
+
+                            <form method="post" action="#" style="margin: 0;">
+                                {% csrf_token %}
+                                <button type="submit" class="action-btn">
+                                    <i class="bi bi-repeat"></i>
+                                    <span>1.2K</span>
+                                </button>
+                            </form>
+
+                            <form method="post" action="#" style="margin: 0;">
+                                {% csrf_token %}
+                                <button type="submit" class="action-btn liked">
+                                    <i class="bi bi-heart-fill"></i>
+                                    <span>4.5K</span>
+                                </button>
+                            </form>
+
+                            <form method="post" action="#" style="margin: 0;">
+                                {% csrf_token %}
+                                <button type="submit" class="action-btn saved">
+                                    <i class="bi bi-bookmark-fill"></i>
+                                </button>
+                            </form>
+
+                            <button class="action-btn">
+                                <i class="bi bi-upload"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Sidebar -->
+        <div class="right-sidebar">
+            <div class="widget">
+                <div class="widget-header">Trends for you</div>
+                <div class="trend-item">
+                    <div class="trend-category">Technology · Trending</div>
+                    <div class="trend-title">#WebDevelopment</div>
+                    <div class="trend-posts">12.5K posts</div>
+                </div>
+                <div class="trend-item">
+                    <div class="trend-category">Programming · Trending</div>
+                    <div class="trend-title">#Python</div>
+                    <div class="trend-posts">8.3K posts</div>
+                </div>
+                <div class="trend-item">
+                    <div class="trend-category">Tech · Trending</div>
+                    <div class="trend-title">#AI</div>
+                    <div class="trend-posts">45.2K posts</div>
+                </div>
+                <div class="trend-item">
+                    <div class="trend-category">Design · Trending</div>
+                    <div class="trend-title">#UIUX</div>
+                    <div class="trend-posts">5.7K posts</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Like button toggle
+        document.querySelectorAll('.action-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                if (this.querySelector('.bi-heart, .bi-heart-fill')) {
+                    this.classList.toggle('liked');
+                    const icon = this.querySelector('i');
+                    if (this.classList.contains('liked')) {
+                        icon.className = 'bi bi-heart-fill';
+                    } else {
+                        icon.className = 'bi bi-heart';
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
