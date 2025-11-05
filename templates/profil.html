@@ -1,291 +1,542 @@
 <!DOCTYPE html>
-<html lang="uz">
-
+<html lang="uz" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Karimov — Profil</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <title>Karimov — Profile</title>
+    <meta name="description" content="Professional blogger sharing insights and stories">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
     <style>
-        body {
-            background-color: #000;
-            color: #e7e9ea;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            min-height: 100vh;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        .top-header {
-            background-color: rgba(0, 0, 0, 0.65);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid #2f3336;
+        :root {
+            --background: 217 25% 8%;
+            --foreground: 210 20% 98%;
+            --card: 217 20% 12%;
+            --card-foreground: 210 20% 98%;
+            --primary: 199 89% 48%;
+            --primary-foreground: 0 0% 100%;
+            --secondary: 217 20% 16%;
+            --muted-foreground: 215 15% 65%;
+            --border: 217 20% 18%;
+            --radius: 1rem;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background-color: hsl(var(--background));
+            color: hsl(var(--foreground));
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
             position: sticky;
             top: 0;
-            z-index: 100;
+            z-index: 50;
+            background: hsla(217, 20%, 12%, 0.7);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid hsla(199, 89%, 48%, 0.2);
         }
 
         .header-content {
-            padding: 12px 16px;
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 1.5rem;
+            padding: 0.75rem 1rem;
+            max-width: 1280px;
+            margin: 0 auto;
         }
 
-        .back-btn {
-            background: none;
-            border: none;
-            color: #e7e9ea;
-            font-size: 20px;
-            cursor: pointer;
-            padding: 8px;
-            border-radius: 50%;
+        .back-button {
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 36px;
-            height: 36px;
-            transition: background-color 0.2s;
+            width: 44px;
+            height: 44px;
+            border: none;
+            background: transparent;
+            color: hsl(var(--foreground));
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 20px;
         }
 
-        .back-btn:hover {
-            background-color: rgba(231, 233, 234, 0.1);
+        .back-button:hover {
+            background-color: hsl(var(--secondary));
         }
 
-        .profile-banner {
+        .header h1 {
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        /* Banner */
+        .banner {
+            position: relative;
             width: 100%;
             height: 200px;
+            overflow: hidden;
+            background: linear-gradient(145deg, hsl(217 20% 12%), hsl(217 25% 16%));
+        }
+
+        .banner img {
+            width: 100%;
+            height: 100%;
             object-fit: cover;
-            border-bottom: 1px solid #2f3336;
         }
 
-        .profile-container {
-            max-width: 1265px;
+        .banner::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, hsla(217, 25%, 8%, 0.2), transparent);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1280px;
             margin: 0 auto;
-            display: flex;
-            gap: 20px;
-            padding: 0 20px;
+            padding: 0 1rem;
         }
 
-        .left-sidebar,
-        .right-sidebar {
-            width: 300px;
-            padding: 20px;
+        .layout {
+            display: flex;
+            gap: 2rem;
         }
 
         .main-content {
             flex: 1;
-            max-width: 650px;
-            border-left: 1px solid #2f3336;
-            border-right: 1px solid #2f3336;
+            max-width: 768px;
         }
 
-        .profile-card {
+        /* Profile Card */
+        .profile-section {
             position: relative;
-            background-color: #16181c;
-            border-radius: 16px;
-            margin-top: -70px;
-            padding: 16px;
+            padding: 0 1rem 1.5rem;
         }
 
-        .profile-avatar {
-            width: 120px;
-            height: 120px;
+        .profile-header {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .avatar {
+            margin-top: -4rem;
+            width: 128px;
+            height: 128px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #1d9bf0, #7856ff);
+            background: linear-gradient(135deg, hsl(199 89% 48%), hsl(186 100% 42%));
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 40px;
+            font-size: 3rem;
             font-weight: 700;
-            color: #fff;
-            border: 4px solid #000;
-            position: absolute;
-            top: -60px;
-            left: 16px;
-        }
-
-        .profile-info {
-            margin-left: 150px;
-        }
-
-        .profile-info h2 {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 0;
-        }
-
-        .profile-info .username {
-            font-size: 16px;
-            color: #71767b;
-            margin-bottom: 12px;
-        }
-
-        .profile-stats {
-            display: flex;
-            gap: 20px;
-            font-size: 14px;
-            color: #71767b;
-            margin-bottom: 12px;
-        }
-
-        .profile-stats strong {
-            color: #e7e9ea;
-            font-weight: 700;
+            color: hsl(var(--primary-foreground));
+            border: 4px solid hsl(var(--background));
+            box-shadow: 0 0 40px hsla(199, 89%, 48%, 0.15);
         }
 
         .follow-btn {
-            background-color: #1d9bf0;
+            align-self: flex-end;
+            padding: 0.75rem 2rem;
             border: none;
-            color: #fff;
+            border-radius: 0.75rem;
+            background: linear-gradient(135deg, hsl(199 89% 48%), hsl(186 100% 42%));
+            color: hsl(var(--primary-foreground));
             font-weight: 600;
-            padding: 8px 20px;
-            border-radius: 20px;
+            font-size: 1rem;
             cursor: pointer;
-            transition: 0.2s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 24px -2px hsla(199, 89%, 48%, 0.1);
         }
 
         .follow-btn:hover {
-            background-color: #0d8ddb;
+            opacity: 0.9;
+            box-shadow: 0 0 40px hsla(199, 89%, 48%, 0.15);
+            transform: translateY(-1px);
+        }
+
+        .profile-info {
+            margin-top: 1rem;
+        }
+
+        .profile-info h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .username {
+            color: hsl(var(--muted-foreground));
+            margin-bottom: 0.75rem;
         }
 
         .bio {
-            margin-top: 12px;
-            font-size: 15px;
-            color: #e7e9ea;
+            margin: 0.75rem 0;
+            line-height: 1.6;
         }
 
-        .user-posts .post-card {
-            background-color: #16181c;
-            border-radius: 16px;
-            padding: 16px;
-            margin-bottom: 16px;
+        .stats {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.875rem;
+            margin-top: 0.75rem;
+        }
+
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .stat strong {
+            font-weight: 700;
+        }
+
+        .stat span {
+            color: hsl(var(--muted-foreground));
+        }
+
+        /* Posts Section */
+        .posts-section {
+            margin-top: 2rem;
+            padding-bottom: 2rem;
+        }
+
+        .posts-section h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            padding: 0 1rem;
+        }
+
+        .posts-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .post-card {
+            background-color: hsl(var(--card));
+            border: 1px solid hsl(var(--border));
+            border-radius: 1rem;
+            padding: 1.5rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .post-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 40px hsla(199, 89%, 48%, 0.15);
         }
 
         .post-title {
-            font-size: 18px;
+            font-size: 1.25rem;
             font-weight: 700;
-            margin-bottom: 8px;
+            margin-bottom: 0.75rem;
         }
 
-        .post-text {
-            font-size: 15px;
-            color: #e7e9ea;
-            margin-bottom: 12px;
-        }
-
-        .post-stats {
-            display: flex;
-            gap: 15px;
-            font-size: 13px;
-            color: #71767b;
-        }
-
-        .post-stats strong {
-            color: #e7e9ea;
+        .post-content {
+            color: hsla(210, 20%, 98%, 0.9);
+            margin-bottom: 1rem;
+            line-height: 1.6;
         }
 
         .post-image {
             width: 100%;
-            border-radius: 12px;
-            margin-bottom: 12px;
+            max-height: 384px;
             object-fit: cover;
-            max-height: 400px;
+            border-radius: 0.75rem;
+            margin-bottom: 1rem;
         }
 
+        .post-stats {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            font-size: 0.875rem;
+            color: hsl(var(--muted-foreground));
+        }
+
+        .post-stat {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .post-stat:hover {
+            color: hsl(var(--primary));
+        }
+
+        .post-stat svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .post-stat strong {
+            color: hsl(var(--foreground));
+            font-weight: 600;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 320px;
+            position: sticky;
+            top: 5rem;
+            align-self: flex-start;
+        }
+
+        .trends-widget {
+            background-color: hsl(var(--card));
+            border: 1px solid hsl(var(--border));
+            border-radius: 1rem;
+            padding: 1.5rem;
+        }
+
+        .trends-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .trends-header svg {
+            width: 20px;
+            height: 20px;
+            color: hsl(var(--primary));
+        }
+
+        .trends-header h3 {
+            font-size: 1.125rem;
+            font-weight: 700;
+        }
+
+        .trends-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .trend-item {
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .trend-item:hover {
+            background-color: hsl(var(--secondary));
+        }
+
+        .trend-tag {
+            font-weight: 600;
+            color: hsl(var(--primary));
+        }
+
+        .trend-posts {
+            font-size: 0.875rem;
+            color: hsl(var(--muted-foreground));
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
         @media (max-width: 1024px) {
-            .right-sidebar {
+            .sidebar {
                 display: none;
             }
         }
 
         @media (max-width: 768px) {
-            .left-sidebar {
-                display: none;
+            .banner {
+                height: 160px;
             }
 
-            .profile-info {
-                margin-left: 0;
-                margin-top: 80px;
+            .avatar {
+                width: 96px;
+                height: 96px;
+                font-size: 2.5rem;
+                margin-top: -3rem;
             }
 
-            .profile-card {
-                padding-left: 16px;
+            .profile-header {
+                align-items: stretch;
+            }
+
+            .follow-btn {
+                width: 100%;
+            }
+
+            .posts-section h2 {
+                padding: 0;
             }
         }
     </style>
 </head>
-
 <body>
     <!-- Header -->
-    <div class="top-header">
+    <header class="header">
         <div class="header-content">
-            <button class="back-btn" onclick="window.location.href='/'">
-                <i class="bi bi-arrow-left"></i>
+            <button class="back-button" onclick="window.history.back()">
+                ←
             </button>
-            <h2>Profil</h2>
+            <h1>Profil</h1>
         </div>
-    </div>
+    </header>
 
     <!-- Banner -->
-    <img src="https://via.placeholder.com/1265x200" alt="Banner" class="profile-banner">
+    <div class="banner">
+        <img src="https://images.unsplash.com/photo-1557682250-33bd709cbe85?w=1920&h=512&fit=crop" alt="Profile banner">
+    </div>
 
-    <div class="profile-container">
-        <!-- Left Sidebar -->
-        <div class="left-sidebar">
-            <div class="profile-card">
-                <div class="profile-avatar">K</div>
-                <div class="profile-info">
-                    <h2>Karimov</h2>
-                    <div class="username">@karimov</div>
-                    <div class="profile-stats">
-                        <div><strong>1.2K</strong> Followers</div>
-                        <div><strong>340</strong> Following</div>
-                        <div><strong>12</strong> Posts</div>
+    <!-- Main Container -->
+    <div class="container">
+        <div class="layout">
+            <!-- Main Content -->
+            <main class="main-content">
+                <!-- Profile Section -->
+                <section class="profile-section">
+                    <div class="profile-header">
+                        <div class="avatar">K</div>
+                        <button class="follow-btn">Follow</button>
                     </div>
-                    <button class="follow-btn">Follow</button>
-                    <div class="bio">Professional blogger sharing insights and stories 📝</div>
-                </div>
-            </div>
-        </div>
 
-        <!-- Main Content -->
-        <div class="main-content">
-            <div class="user-posts">
-                <div class="post-card">
-                    <h3 class="post-title">Python bilan web dasturlash</h3>
-                    <p class="post-text">Pythonni o‘rganib, Django va Flask bilan web saytlar yaratish mumkin...</p>
-                    <img src="https://via.placeholder.com/600x300" class="post-image" alt="Post image">
-                    <div class="post-stats">
-                        <div><strong>120</strong> Retweets</div>
-                        <div><strong>450</strong> Likes</div>
-                        <div><strong>32</strong> Bookmarks</div>
+                    <div class="profile-info">
+                        <h2>Karimov</h2>
+                        <p class="username">@karimov</p>
+                        <p class="bio">Professional blogger sharing insights and stories 📝</p>
+
+                        <div class="stats">
+                            <div class="stat">
+                                <strong>1.2K</strong>
+                                <span>Followers</span>
+                            </div>
+                            <div class="stat">
+                                <strong>340</strong>
+                                <span>Following</span>
+                            </div>
+                            <div class="stat">
+                                <strong>12</strong>
+                                <span>Posts</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Posts Section -->
+                <section class="posts-section">
+                    <h2>Posts</h2>
+                    <div class="posts-list">
+                        <!-- Post 1 -->
+                        <article class="post-card">
+                            <h3 class="post-title">Python bilan web dasturlash</h3>
+                            <p class="post-content">Pythonni o'rganib, Django va Flask bilan web saytlar yaratish mumkin. Bu framework'lar yordamida murakkab web ilovalari yaratish oson va tez amalga oshadi.</p>
+                            <img src="https://images.unsplash.com/photo-1526379095098-d400fd0bf935?w=1024&h=576&fit=crop" alt="Python programming" class="post-image">
+                            <div class="post-stats">
+                                <div class="post-stat">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                                    </svg>
+                                    <span><strong>120</strong> Retweets</span>
+                                </div>
+                                <div class="post-stat">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                    </svg>
+                                    <span><strong>450</strong> Likes</span>
+                                </div>
+                                <div class="post-stat">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                                    </svg>
+                                    <span><strong>32</strong> Bookmarks</span>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- Post 2 -->
+                        <article class="post-card">
+                            <h3 class="post-title">Node.js asoslari</h3>
+                            <p class="post-content">Node.js yordamida server tomon dasturlash va API yaratishni o'rganish. Express.js framework'i bilan RESTful API yaratamiz va ma'lumotlar bazasi bilan ishlashni o'rganamiz.</p>
+                            <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1024&h=576&fit=crop" alt="Node.js development" class="post-image">
+                            <div class="post-stats">
+                                <div class="post-stat">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                                    </svg>
+                                    <span><strong>85</strong> Retweets</span>
+                                </div>
+                                <div class="post-stat">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                    </svg>
+                                    <span><strong>230</strong> Likes</span>
+                                </div>
+                                <div class="post-stat">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                                    </svg>
+                                    <span><strong>12</strong> Bookmarks</span>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+            </main>
+
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <div class="trends-widget">
+                    <div class="trends-header">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                        </svg>
+                        <h3>Trends for you</h3>
+                    </div>
+                    <div class="trends-list">
+                        <div class="trend-item">
+                            <p class="trend-tag">#WebDevelopment</p>
+                            <p class="trend-posts">12.4K posts</p>
+                        </div>
+                        <div class="trend-item">
+                            <p class="trend-tag">#Python</p>
+                            <p class="trend-posts">8.9K posts</p>
+                        </div>
+                        <div class="trend-item">
+                            <p class="trend-tag">#AI</p>
+                            <p class="trend-posts">15.2K posts</p>
+                        </div>
+                        <div class="trend-item">
+                            <p class="trend-tag">#UIUX</p>
+                            <p class="trend-posts">6.7K posts</p>
+                        </div>
                     </div>
                 </div>
-
-                <div class="post-card">
-                    <h3 class="post-title">Node.js asoslari</h3>
-                    <p class="post-text">Node.js yordamida server tomon dasturlash va API yaratishni o‘rganish...</p>
-                    <img src="https://via.placeholder.com/600x300" class="post-image" alt="Post image">
-                    <div class="post-stats">
-                        <div><strong>85</strong> Retweets</div>
-                        <div><strong>230</strong> Likes</div>
-                        <div><strong>12</strong> Bookmarks</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Right Sidebar -->
-        <div class="right-sidebar">
-            <div class="widget" style="background-color:#16181c; border-radius:16px; padding:16px;">
-                <h4 style="margin-bottom:12px;">Trends for you</h4>
-                <div class="trend-item">#WebDevelopment</div>
-                <div class="trend-item">#Python</div>
-                <div class="trend-item">#AI</div>
-                <div class="trend-item">#UIUX</div>
-            </div>
+            </aside>
         </div>
     </div>
 </body>
-
 </html>
